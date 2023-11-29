@@ -1,0 +1,6 @@
+<h4>Area definition</h4>
+The areas used in this table are a mixture of local government administrative boundaries and statistical geographies. 
+Local government administrative boundaries were established in legislation under the Local Government Act 2002. They are defined by the Local Government Commission. The Local government administrative boundaries used are the regional council boundaries and the territorial authority boundaries. The Auckland community board boundaries have been used for Auckland Council Statistics.
+The statistical geographies are a statistical classification only, not a legal one.  Statistical area geographies are aggregations of meshblocks (the smallest statistical geography) optimised to be of similar population sizes to enable the release of low-level data. They are non-administrative areas that are in between meshblocks and territorial authorities in size. Statistical areas either define or aggregate to define urban rural areas, territorial authorities, and regional councils. 
+This table uses the Statistical Area 2 (SA2) geography in place of the area unit geography used in the 2017 tables.
+This data is using 2018 area boundaries. 

@@ -1,0 +1,5 @@
+<h4>Geographic Unit *</h4>
+A separate operating unit engaged in New Zealand in one, or predominately one, kind of economic activity from a single physical location or base.
+<h4>Employee Count (EC) *</h4>
+Employee count is a head-count of all salary and wage earners for the February reference month.
+*Due to rounding, individual figures may not always sum to the stated total(s). 
