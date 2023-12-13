@@ -6,3 +6,6 @@
 09/outputs/*
 09/__pycache__/*
 09/__pycache__
+home/dataset/cifar-10-batches-py/test/*
+home/dataset/cifar-10-batches-py/train/*
+__pycache__
