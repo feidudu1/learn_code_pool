@@ -9,3 +9,4 @@
 home/dataset/cifar-10-batches-py/test/*
 home/dataset/cifar-10-batches-py/train/*
 __pycache__
+06/models

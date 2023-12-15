@@ -52,7 +52,7 @@ class MyDataset(Dataset):
 
     def __getitem__(self, index):
         im_path, im_label = self.imgs[index]
-        print(111, im_path)
+        # print(111, im_path)
         im_data = self.loader(im_path)
         if self.transform is not None:
             im_data = self.transform(im_data)
@@ -61,8 +61,8 @@ class MyDataset(Dataset):
     def __len__(self):
         return len(self.imgs)
 
-im_train_list = glob.glob("/Users/yafei/learn/learn_code_pool/pytorch入门到进阶/home/dataset/cifar-10-batches-py/train/*/*.png")
-im_test_list = glob.glob("/Users/yafei/learn/learn_code_pool/pytorch入门到进阶/home/dataset/cifar-10-batches-py/test/*/*.png")
+im_train_list = glob.glob("../home/dataset/cifar-10-batches-py/train/*/*.png")
+im_test_list = glob.glob("../home/dataset/cifar-10-batches-py/test/*/*.png")
 
 train_dataset = MyDataset(im_train_list,
                          transform=train_transform)
@@ -71,16 +71,16 @@ test_dataset = MyDataset(im_test_list,
                         transform =transforms.ToTensor())
 
 train_loader = DataLoader(dataset=train_dataset,
-                               batch_size=3,
+                               batch_size=6,
                                shuffle=True,
                                num_workers=4)
 test_loader = DataLoader(dataset=test_dataset,
-                               batch_size=3,
+                               batch_size=6,
                                shuffle=True,
                                num_workers=4)
 
-print("num_of_train", len(train_dataset))
-print("num_of_test", len(test_dataset))
+# print("num_of_train", len(train_dataset))
+# print("num_of_test", len(test_dataset))
 
 
 
