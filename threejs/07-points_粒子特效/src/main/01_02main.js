@@ -18,8 +18,10 @@ const camera = new THREE.PerspectiveCamera(
 camera.position.set(0, 0, 10);
 scene.add(camera);
 
-// 3、创建球几何体
-const sphereGeometry = new THREE.SphereBufferGeometry(3, 30, 30);
+// 3、创建球几何体（warn：修改！！！！）
+// 点材质会落在sphereGeometry的每个顶点上
+// const sphereGeometry = new THREE.SphereBufferGeometry(3, 100, 100); // 100会比30有更多的顶点，从而有更多的点材质
+const sphereGeometry = new THREE.SphereBufferGeometry(3, 30, 30); // 半径为3
 // const material = new THREE.MeshBasicMaterial({
 //   color: 0xff0000,
 //   wireframe: true,
@@ -27,21 +29,26 @@ const sphereGeometry = new THREE.SphereBufferGeometry(3, 30, 30);
 // const mesh = new THREE.Mesh(sphereGeometry, material);
 // scene.add(mesh);
 
-// 设置点材质
+// 设置点材质（warn：新增！！！！）
 const pointsMaterial = new THREE.PointsMaterial();
 pointsMaterial.size = 0.1;
 pointsMaterial.color.set(0xfff000);
-// 相机深度而衰减
-pointsMaterial.sizeAttenuation = true;
+// （warn：新增！！！！）
+// 点的大小是否因相机深度而衰减（仅限透视摄像头）
+pointsMaterial.sizeAttenuation = true; // 默认为true，如果设置为false，那么前面的点和后面的点一样大
 
+// （warn：新增！！！！）
 // 载入纹理
 const textureLoader = new THREE.TextureLoader();
-const texture = textureLoader.load("./textures/particles/2.png");
+// 前面有讲过透明贴图，黑色是透明，白色是不透明
+const texture = textureLoader.load("./textures/particles/1.png");
 // 设置点材质纹理
 pointsMaterial.map = texture;
 pointsMaterial.alphaMap = texture;
 pointsMaterial.transparent = true;
+// 渲染此材质是否对深度缓冲有影响，默认为true，有影响。没太懂？
 pointsMaterial.depthWrite = false;
+// 叠加方式（如正片叠底等，这里是黄色片状叠加越多则越亮）
 pointsMaterial.blending = THREE.AdditiveBlending;
 
 const points = new THREE.Points(sphereGeometry, pointsMaterial);
@@ -55,13 +62,8 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 // 开启场景中的阴影贴图
 renderer.shadowMap.enabled = true;
 renderer.physicallyCorrectLights = true;
-
-// console.log(renderer);
 // 将webgl渲染的canvas内容添加到body
 document.body.appendChild(renderer.domElement);
-
-// // 使用渲染器，通过相机将场景渲染进来
-// renderer.render(scene, camera);
 
 // 5、创建轨道控制器
 const controls = new OrbitControls(camera, renderer.domElement);

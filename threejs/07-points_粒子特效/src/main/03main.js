@@ -1,14 +1,9 @@
 import * as THREE from "three";
 // 导入轨道控制器
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-// 导入动画库
-import gsap from "gsap";
-// 导入dat.gui
-import * as dat from "dat.gui";
 
-// 目标：使用pointes设置随机顶点打造星河
+//////////////////////////////////////////////////////////////////////////// 目标：使用pointes设置随机顶点打造星河
 
-const gui = new dat.GUI();
 // 1、创建场景
 const scene = new THREE.Scene();
 
@@ -19,20 +14,20 @@ const camera = new THREE.PerspectiveCamera(
   0.1,
   1000
 );
-
 // 设置相机位置
 camera.position.set(0, 0, 10);
 scene.add(camera);
 
+// 3、添加物体（warn：修改！！！！）
 const particlesGeometry = new THREE.BufferGeometry();
-const count = 5000;
-
+const count = 5000; 
+const mount = count * 3 // 每组位置或者颜色都是三位数表示
 // 设置缓冲区数组
-const positions = new Float32Array(count * 3);
+const positions = new Float32Array(mount);
 // 设置粒子顶点颜色
-const colors = new Float32Array(count * 3);
+const colors = new Float32Array(mount);
 // 设置顶点
-for (let i = 0; i < count * 3; i++) {
+for (let i = 0; i < mount; i++) {
   positions[i] = (Math.random() - 0.5) * 100;
   colors[i] = Math.random();
 }
@@ -65,7 +60,7 @@ const points = new THREE.Points(particlesGeometry, pointsMaterial);
 
 scene.add(points);
 
-// 初始化渲染器
+// 3、初始化渲染器
 const renderer = new THREE.WebGLRenderer();
 // 设置渲染的尺寸大小
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -80,19 +75,17 @@ document.body.appendChild(renderer.domElement);
 // // 使用渲染器，通过相机将场景渲染进来
 // renderer.render(scene, camera);
 
-// 创建轨道控制器
+// 4、创建轨道控制器
 const controls = new OrbitControls(camera, renderer.domElement);
 // 设置控制器阻尼，让控制器更有真实效果,必须在动画循环里调用.update()。
 controls.enableDamping = true;
 
-// 添加坐标轴辅助器
+// 5、添加坐标轴辅助器
 const axesHelper = new THREE.AxesHelper(5);
 scene.add(axesHelper);
-// 设置时钟
-const clock = new THREE.Clock();
 
+// 6、使用渲染器
 function render() {
-  let time = clock.getElapsedTime();
   controls.update();
   renderer.render(scene, camera);
   //   渲染下一帧的时候就会调用render函数
@@ -101,7 +94,7 @@ function render() {
 
 render();
 
-// 监听画面变化，更新渲染画面
+// 7、监听画面变化，更新渲染画面
 window.addEventListener("resize", () => {
   //   console.log("画面变化了");
   // 更新摄像头

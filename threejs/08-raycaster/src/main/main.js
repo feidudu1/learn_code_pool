@@ -1,14 +1,9 @@
 import * as THREE from "three";
 // 导入轨道控制器
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-// 导入动画库
-import gsap from "gsap";
-// 导入dat.gui
-import * as dat from "dat.gui";
 
-// 目标：raycaster
+////////////////////////////////////////////////////////////////////////////// 目标：raycaster
 
-const gui = new dat.GUI();
 // 1、创建场景
 const scene = new THREE.Scene();
 
@@ -19,13 +14,11 @@ const camera = new THREE.PerspectiveCamera(
   0.1,
   300
 );
-
-const textureLoader = new THREE.TextureLoader();
-const particlesTexture = textureLoader.load("./textures/particles/1.png");
 // 设置相机位置
 camera.position.set(0, 0, 20);
 scene.add(camera);
 
+// 3、添加物体（warn：修改！！！！）
 const cubeGeometry = new THREE.BoxBufferGeometry(1, 1, 1);
 const material = new THREE.MeshBasicMaterial({
   wireframe: true,
@@ -47,9 +40,9 @@ for (let i = -5; i < 5; i++) {
   }
 }
 
+// 4、鼠标操作（warn：新增！！！！）
 // 创建投射光线对象
 const raycaster = new THREE.Raycaster();
-
 // 鼠标的位置对象
 const mouse = new THREE.Vector2();
 
@@ -70,18 +63,18 @@ const mouse = new THREE.Vector2();
 // 监听鼠标的位置
 window.addEventListener("click", (event) => {
   //   console.log(event);
-  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-  mouse.y = -((event.clientY / window.innerHeight) * 2 - 1);
+  mouse.x = (event.clientX / window.innerWidth) * 2 - 1; // 需要是从0-1的值
+  mouse.y = -((event.clientY / window.innerHeight) * 2 - 1); // 屏幕的y轴朝下，而threejs是朝上
   raycaster.setFromCamera(mouse, camera);
   let result = raycaster.intersectObjects(cubeArr);
-  //   console.log(result);
+  console.log(result);
   //   result[0].object.material = redMaterial;
   result.forEach((item) => {
     item.object.material = redMaterial;
   });
 });
 
-// 初始化渲染器
+// 5、初始化渲染器
 const renderer = new THREE.WebGLRenderer();
 // 设置渲染的尺寸大小
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -96,29 +89,25 @@ document.body.appendChild(renderer.domElement);
 // // 使用渲染器，通过相机将场景渲染进来
 // renderer.render(scene, camera);
 
-// 创建轨道控制器
+// 6、创建轨道控制器
 const controls = new OrbitControls(camera, renderer.domElement);
 // 设置控制器阻尼，让控制器更有真实效果,必须在动画循环里调用.update()。
 controls.enableDamping = true;
 
-// 添加坐标轴辅助器
+// 7、添加坐标轴辅助器
 const axesHelper = new THREE.AxesHelper(5);
 scene.add(axesHelper);
-// 设置时钟
-const clock = new THREE.Clock();
 
+// 8、使用渲染器
 function render() {
-  let time = clock.getElapsedTime();
-
   controls.update();
   renderer.render(scene, camera);
   //   渲染下一帧的时候就会调用render函数
   requestAnimationFrame(render);
 }
-
 render();
 
-// 监听画面变化，更新渲染画面
+// 9、监听画面变化，更新渲染画面
 window.addEventListener("resize", () => {
   //   console.log("画面变化了");
 

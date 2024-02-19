@@ -1,14 +1,9 @@
 import * as THREE from "three";
 // 导入轨道控制器
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-// 导入动画库
-import gsap from "gsap";
-// 导入dat.gui
-import * as dat from "dat.gui";
 
-// 目标：设置漫天的雪花
+////////////////////////////////////////////////////////////////////////////// 目标：设置漫天的雪花
 
-const gui = new dat.GUI();
 // 1、创建场景
 const scene = new THREE.Scene();
 
@@ -17,23 +12,23 @@ const camera = new THREE.PerspectiveCamera(
   75,
   window.innerWidth / window.innerHeight,
   0.1,
-  30
+  30 //（warn：修改！！！！）最远端要在球后面之前，因为球后面的雪花会往上翻
 );
-
-// 设置相机位置
-camera.position.set(0, 0, 40);
+// 设置相机位置（warn：修改！！！！）
+camera.position.set(0, 0, 40); // 相机拿到更远的地方
 scene.add(camera);
 
+// 3、添加图形（warn：修改！！！！）对前一节内容进行封装
 function createPoints(url, size = 0.5) {
   const particlesGeometry = new THREE.BufferGeometry();
   const count = 10000;
-
+  const mount = count * 3
   // 设置缓冲区数组
-  const positions = new Float32Array(count * 3);
+  const positions = new Float32Array(mount);
   // 设置粒子顶点颜色
-  const colors = new Float32Array(count * 3);
+  const colors = new Float32Array(mount);
   // 设置顶点
-  for (let i = 0; i < count * 3; i++) {
+  for (let i = 0; i < mount; i++) {
     positions[i] = (Math.random() - 0.5) * 100;
     colors[i] = Math.random();
   }
@@ -72,7 +67,7 @@ const points = createPoints("1", 1.5);
 const points2 = createPoints("xh", 1);
 const points3 = createPoints("xh", 2);
 
-// 初始化渲染器
+// 3、初始化渲染器
 const renderer = new THREE.WebGLRenderer();
 // 设置渲染的尺寸大小
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -87,17 +82,19 @@ document.body.appendChild(renderer.domElement);
 // // 使用渲染器，通过相机将场景渲染进来
 // renderer.render(scene, camera);
 
-// 创建轨道控制器
+// 4、创建轨道控制器
 const controls = new OrbitControls(camera, renderer.domElement);
 // 设置控制器阻尼，让控制器更有真实效果,必须在动画循环里调用.update()。
 controls.enableDamping = true;
 
-// 添加坐标轴辅助器
+// 5、添加坐标轴辅助器
 const axesHelper = new THREE.AxesHelper(5);
 scene.add(axesHelper);
-// 设置时钟
+
+// 6、设置时钟
 const clock = new THREE.Clock();
 
+// 7、使用渲染器（warn：修改！！！！）
 function render() {
   let time = clock.getElapsedTime();
   points.rotation.x = time * 0.3;
@@ -110,10 +107,9 @@ function render() {
   //   渲染下一帧的时候就会调用render函数
   requestAnimationFrame(render);
 }
-
 render();
 
-// 监听画面变化，更新渲染画面
+// 8、监听画面变化，更新渲染画面
 window.addEventListener("resize", () => {
   //   console.log("画面变化了");
 
